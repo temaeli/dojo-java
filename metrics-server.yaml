@@ -76,13 +76,6 @@ spec:
       labels:
         k8s-app: metrics-server
     spec:
-      hostAliases:
-      - hostnames:
-        - node01
-        ip: 172.17.0.22
-      - hostnames:
-        - controlplane
-        ip: 172.17.0.20
       serviceAccountName: metrics-server
       volumes:
       # mount in tmp so we can safely use from-scratch images and/or read-only containers
@@ -96,6 +89,7 @@ spec:
           - --cert-dir=/tmp
           - --secure-port=4443
           - --kubelet-insecure-tls
+          - --kubelet-preferred-address-types=InternalIP
         ports:
         - name: main-port
           containerPort: 4443
